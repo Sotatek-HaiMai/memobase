@@ -92,7 +92,7 @@ class Config:
 
     # LLM
     language: Literal["en", "zh"] = "en"
-    llm_style: Literal["openai", "doubao_cache"] = "openai"
+    llm_style: Literal["openai", "doubao_cache", "openrouter"] = "openai"
     llm_base_url: str = None
     llm_api_key: str = None
     llm_openai_default_query: dict[str, str] = None
@@ -102,7 +102,9 @@ class Config:
     summary_llm_model: str = None
 
     enable_event_embedding: bool = True
-    embedding_provider: Literal["openai", "jina", "ollama"] = "openai"
+    embedding_provider: Literal["openai", "jina", "ollama", "lmstudio", "openrouter"] = (
+        "openai"
+    )
     embedding_api_key: str = None
     embedding_base_url: str = None
     embedding_dim: int = 1536
@@ -192,6 +194,8 @@ class Config:
 
     def __post_init__(self):
         assert self.llm_api_key is not None, "llm_api_key is required"
+        if self.llm_style == "openrouter":
+            self.llm_base_url = self.llm_base_url or "https://openrouter.ai/api/v1"
         if self.enable_event_embedding:
             if self.embedding_api_key is None and (
                 self.llm_style == self.embedding_provider == "openai"
@@ -210,6 +214,11 @@ class Config:
                 assert self.embedding_model in {
                     "jina-embeddings-v3",
                 }, "embedding_model must be one of the following: jina-embeddings-v3"
+
+            if self.embedding_provider == "openrouter":
+                self.embedding_base_url = (
+                    self.embedding_base_url or "https://openrouter.ai/api/v1"
+                )
 
         if self.additional_user_profiles:
             [UserProfileTopic(**up) for up in self.additional_user_profiles]

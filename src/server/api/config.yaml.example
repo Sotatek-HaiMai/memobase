@@ -10,4 +10,7 @@ llm_api_key: YOUR-OPENAI-KEY
 # embedding_base_url: http://127.0.0.1:1234/v1
 # embedding_dim: 4096
 
+# If you want to use OpenRouter for both LLM and embeddings, see:
+# example_config/openrouter/config.yaml
+
 # language: zh

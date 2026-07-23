@@ -12,7 +12,11 @@ from ..telemetry import telemetry_manager, CounterMetricName, HistogramMetricNam
 from .openai_model_llm import openai_complete
 from .doubao_cache_llm import doubao_cache_complete
 
-FACTORIES = {"openai": openai_complete, "doubao_cache": doubao_cache_complete}
+FACTORIES = {
+    "openai": openai_complete,
+    "doubao_cache": doubao_cache_complete,
+    "openrouter": openai_complete,
+}
 assert CONFIG.llm_style in FACTORIES, f"Unsupported LLM style: {CONFIG.llm_style}"
 
 
