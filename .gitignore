@@ -322,3 +322,8 @@ dist
 # act
 .actrc
 event.json
+# ADF local settings
+.claude/settings.local.json
+
+# Local server config (may contain API keys)
+src/server/api/config.yaml
